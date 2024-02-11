@@ -1,0 +1,13 @@
+{
+  "name": "a.-logical",
+  "version": "1.0.0",
+  "description": "palindrome",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Ahmad Waldi Arridho",
+  "license": "ISC"
+}
