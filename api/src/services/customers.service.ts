@@ -20,6 +20,30 @@ export class CustomerService {
     return findCustomer
   }
 
+  public async findSearchNameCustomer(param: string): Promise<Customer[]> {
+    const name = await this.customer.findMany({
+      where: {
+        name: {
+          contains: param
+        }
+      }
+    })
+
+    return name
+  }
+
+  public async findSearchPhoneCustomer(param: string): Promise<Customer[]> {
+    const phone = await this.customer.findMany({
+      where: {
+        phone: {
+          contains: param
+        }
+      }
+    })
+
+    return phone
+  }
+
   public async createCustomer(customerData: CreateCustomerDto): Promise<Customer> {
     const findUser: Customer = await this.customer.findUnique({ where: { email: customerData.email } })
     if (findUser) throw new HttpException(409, `This email ${customerData.email} already exists`)

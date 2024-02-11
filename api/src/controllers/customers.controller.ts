@@ -16,6 +16,26 @@ export class CustomerController {
     }
   }
 
+  public searchCustomer = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { name, phone } = req.query as { name: string; phone: string }
+
+      let findSearchDataCustomer: Customer[]
+
+      if (name !== undefined) {
+        findSearchDataCustomer = await this.customer.findSearchNameCustomer(name)
+      }
+
+      if (phone !== undefined) {
+        findSearchDataCustomer = await this.customer.findSearchPhoneCustomer(phone)
+      }
+
+      res.status(200).json({ data: findSearchDataCustomer, message: 'success' })
+    } catch (error) {
+      next(error)
+    }
+  }
+
   public getCustomerById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const customerId = req.params.id
