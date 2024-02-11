@@ -141,7 +141,7 @@ export default function MiniDrawer({ children }: any) {
         </DrawerHeader>
         <Divider />
         <List sx={{ backgroundColor: "rgb(203,45,62)" }}>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {["Inbox"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
@@ -168,7 +168,7 @@ export default function MiniDrawer({ children }: any) {
         </List>
         <Divider />
         <List sx={{ backgroundColor: "rgb(203,45,62)", height: "100vh" }}>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
+          {[].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{

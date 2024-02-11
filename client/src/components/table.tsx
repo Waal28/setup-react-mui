@@ -7,10 +7,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { getData } from "../api";
 
 interface Column {
-  id: "name" | "phone" | "email" | "address";
+  id: "name" | "phone" | "email" | "address" | "action";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -30,41 +32,19 @@ const columns: readonly Column[] = [
     label: "Address",
     minWidth: 170,
   },
-];
-
-interface Data {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  address: string;
-}
-
-function createData(
-  id: string,
-  name: string,
-  phone: string,
-  email: string,
-  address: string
-): Data {
-  return { id, name, phone, email, address };
-}
-
-const rows = [
-  createData("1", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("2", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("3", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("4", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("5", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("6", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("7", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("8", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("9", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("10", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
-  createData("11", "Iwal", "081234567890", "iwal@gmail.com", "Jl. Sudirman"),
+  {
+    id: "action",
+    label: "Action",
+    minWidth: 170,
+  },
 ];
 
 export default function CustomizedTables() {
+  const [form, setForm] = React.useState({
+    name: "",
+    phone: "",
+  });
+  const [rows, setRows] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -78,7 +58,53 @@ export default function CustomizedTables() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  async function getData__name() {
+    const res = await getData(`customers/search?name=${form.name}`);
+    setRows(
+      res.map((r: any) => ({
+        ...r,
+        action: (
+          <Button
+            id="basic-button"
+            startIcon={<MoreVertIcon />}
+            color="inherit"
+          ></Button>
+        ),
+      }))
+    );
+  }
+  async function getData__phone() {
+    const res = await getData(`customers/search?phone=${form.phone}`);
+    setRows(
+      res.map((r: any) => ({
+        ...r,
+        action: (
+          <Button
+            id="basic-button"
+            startIcon={<MoreVertIcon />}
+            color="inherit"
+          ></Button>
+        ),
+      }))
+    );
+  }
+  async function getData__() {
+    const res = await getData("customers");
+    setRows(res);
+  }
+  React.useEffect(() => {
+    if (form.name !== "") {
+      getData__name();
+    } else if (form.phone !== "") {
+      getData__phone();
+    } else {
+      getData__();
+    }
+  }, [form]);
 
+  React.useEffect(() => {
+    getData__();
+  }, []);
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -105,6 +131,10 @@ export default function CustomizedTables() {
                   variant="outlined"
                   size="small"
                   sx={{ width: "200px" }}
+                  value={form.name}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setForm({ ...form, name: event.target.value });
+                  }}
                 />
               </TableCell>
               <TableCell align="center">
@@ -114,13 +144,17 @@ export default function CustomizedTables() {
                   variant="outlined"
                   size="small"
                   sx={{ width: "200px" }}
+                  value={form.phone}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setForm({ ...form, phone: event.target.value });
+                  }}
                 />
               </TableCell>
               <TableCell colSpan={3} align="center"></TableCell>
             </TableRow>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row: any) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
