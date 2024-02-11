@@ -1,0 +1,16 @@
+# baseURL
+@baseURL = http://localhost:4000
+
+# Admin Login
+POST {{ baseURL }}/login
+Content-Type: application/json
+
+{
+    "email": "admin@gmail.com",
+	"password": "admin123"
+}
+
+###
+# Admin Logout
+POST {{ baseURL }}/logout
+Content-Type: application/json

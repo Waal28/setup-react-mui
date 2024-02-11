@@ -1,0 +1,36 @@
+# baseURL
+@baseURL = http://localhost:4000
+
+###
+# Find All Products
+GET {{ baseURL }}/products
+
+###
+# Find Product By Id
+GET {{ baseURL }}/products/266ed1df-a1fc-4953-b500-b3741c7edef0
+
+###
+# Create Product
+POST {{ baseURL }}/products
+Content-Type: application/json
+
+{   
+    "name": "product test",
+    "unit": 6,
+    "price": 10000
+}
+
+###
+# Modify product By Id
+PUT {{ baseURL }}/products/182a828d-1eee-4edf-8ef9-8b8b9a5eac08
+Content-Type: application/json
+
+{
+    "name": "product test 1",
+    "unit": 6,
+    "price": 10000
+}
+
+###
+# Delete product By Id
+DELETE {{ baseURL }}/products/182a828d-1eee-4edf-8ef9-8b8b9a5eac08

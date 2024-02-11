@@ -1,0 +1,38 @@
+# baseURL
+@baseURL = http://localhost:4000
+
+###
+# Find All Cutomers
+GET {{ baseURL }}/customers
+
+###
+# Find Customer By Id
+GET {{ baseURL }}/customers/4cac2989-38fc-47b8-b825-57eee13c096a
+
+###
+# Create Customer
+POST {{ baseURL }}/customers
+Content-Type: application/json
+
+{   
+    "name": "customer13",
+    "phone": "62834758452",
+    "email": "customer13@email.com",
+    "address": "jln.madrasah"
+}
+
+###
+# Modify Customer By Id
+PUT {{ baseURL }}/customers/b80532ea-3054-46aa-bf02-fedbf1781839
+Content-Type: application/json
+
+{
+    "name": "customer133",
+    "phone": "62834758452",
+    "email": "customer13@email.com",
+    "address": "jln.madrasah1"
+}
+
+###
+# Delete User By Id
+DELETE {{ baseURL }}/customers/b80532ea-3054-46aa-bf02-fedbf1781839
